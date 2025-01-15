@@ -35,6 +35,7 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(registerUser.pending, (state, action) => initialState)
       .addCase(registerUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthChecked = true;
@@ -45,6 +46,7 @@ export const userSlice = createSlice({
         const error = action.error.message;
         state.error = error ? error : '';
       })
+      .addCase(loginUser.pending, (state, action) => initialState)
       .addCase(loginUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthChecked = true;

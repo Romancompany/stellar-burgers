@@ -9,7 +9,8 @@ import {
   logoutApi,
   getUserApi,
   orderBurgerApi,
-  getOrdersApi
+  getOrdersApi,
+  getOrderByNumberApi
 } from '@api';
 import { setCookie, deleteCookie } from '../../utils/cookie';
 import { setIsAuthChecked, setUser } from './userSlice';
@@ -27,6 +28,20 @@ export const fetchOrdersAll = createAsyncThunk(
 
 export const fetchOrders = createAsyncThunk('burger/fetchOrders', async () =>
   getOrdersApi()
+);
+
+export const fetchOrderByNumber = createAsyncThunk(
+  'burger/fetchOrderByNumber',
+  async (number: number) => {
+    const data = await getOrderByNumberApi(number);
+    if (!data?.success) {
+      return null;
+    }
+    if (data.orders.length !== 1) {
+      return null;
+    }
+    return data.orders[0];
+  }
 );
 
 export const loginUser = createAsyncThunk(

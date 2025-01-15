@@ -20,6 +20,7 @@ export const feedSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrdersAll.fulfilled, (state, action) => action.payload)
+      .addCase(fetchOrdersAll.pending, (state, action) => initialState)
       .addCase(fetchOrdersAll.rejected, (state, action) => initialState);
   }
 });

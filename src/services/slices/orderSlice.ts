@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { fetchOrders } from './actions';
 
-export type TOrderState = {
+export type TOrdersState = {
   orders: TOrder[];
 };
 
-export const initialState: TOrderState = {
+export const initialState: TOrdersState = {
   orders: []
 };
 
@@ -22,6 +22,7 @@ export const orderSlice = createSlice({
       .addCase(fetchOrders.fulfilled, (state, action) => ({
         orders: action.payload
       }))
+      .addCase(fetchOrders.pending, (state, action) => initialState)
       .addCase(fetchOrders.rejected, (state, action) => initialState);
   }
 });
