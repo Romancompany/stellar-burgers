@@ -1,4 +1,4 @@
-import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   TLoginData,
   TRegisterData,
@@ -8,11 +8,11 @@ import {
   registerUserApi,
   logoutApi,
   getUserApi,
-  orderBurgerApi
+  orderBurgerApi,
+  getOrdersApi
 } from '@api';
-import { TUser } from '@utils-types';
 import { setCookie, deleteCookie } from '../../utils/cookie';
-import { setIsAuthChecked } from './userSlice';
+import { setIsAuthChecked, setUser } from './userSlice';
 import { clearIngredient } from './burgerConstructorSlice';
 
 export const fetchIngredients = createAsyncThunk(
@@ -20,8 +20,13 @@ export const fetchIngredients = createAsyncThunk(
   async () => getIngredientsApi()
 );
 
-export const fetchFeeds = createAsyncThunk('burger/fetchFeeds', async () =>
-  getFeedsApi()
+export const fetchOrdersAll = createAsyncThunk(
+  'burger/fetchFeedsAll',
+  async () => getFeedsApi()
+);
+
+export const fetchOrders = createAsyncThunk('burger/fetchOrders', async () =>
+  getOrdersApi()
 );
 
 export const loginUser = createAsyncThunk(
@@ -62,10 +67,6 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-export const setUser = createAction<TUser | null, 'user/setUser'>(
-  'user/setUser'
-);
-
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',
   async (_, { dispatch }) => {
@@ -83,7 +84,10 @@ export const orderBurger = createAsyncThunk(
   'user/orderBurger',
   async (id: string[], { dispatch }) => {
     const data = await orderBurgerApi(id);
+    if (!data?.success) {
+      return null;
+    }
     dispatch(clearIngredient());
-    return { order: data.order, name: data.name };
+    return data.order;
   }
 );

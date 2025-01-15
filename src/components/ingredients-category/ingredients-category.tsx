@@ -4,7 +4,7 @@ import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import { useSelector } from '../../services/store';
 import {
-  getBun,
+  getBunIngredient,
   getIngredients
 } from '../../services/slices/burgerConstructorSlice';
 
@@ -12,7 +12,7 @@ export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
-  const bun = useSelector(getBun);
+  const bun = useSelector(getBunIngredient);
   const ingredientItems = useSelector(getIngredients);
 
   const burgerConstructor = {

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TOrdersData } from '@utils-types';
-import { fetchFeeds } from './actions';
+import { TOrdersData, TOrder } from '@utils-types';
+import { fetchOrdersAll } from './actions';
 
 export const initialState: TOrdersData = {
   orders: [],
@@ -12,9 +12,17 @@ export const feedSlice = createSlice({
   name: 'feed',
   initialState,
   reducers: {},
+  selectors: {
+    getFeedOrdersAll: (state): TOrder[] => state.orders,
+    getFeedTotal: (state) => state.total,
+    getFeedTotalToday: (state) => state.totalToday
+  },
   extraReducers: (builder) => {
-    builder.addCase(fetchFeeds.fulfilled, (state, action) => {
-      state = action.payload;
-    });
+    builder
+      .addCase(fetchOrdersAll.fulfilled, (state, action) => action.payload)
+      .addCase(fetchOrdersAll.rejected, (state, action) => initialState);
   }
 });
+
+export const { getFeedOrdersAll, getFeedTotal, getFeedTotalToday } =
+  feedSlice.selectors;

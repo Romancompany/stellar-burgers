@@ -4,16 +4,9 @@ import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC, useEffect } from 'react';
 import { getIsIngredientsLoading } from '../../services/slices/ingredientSlice';
-import { fetchIngredients } from '../../services/slices/actions';
-import { useDispatch, useSelector } from '../../services/store';
+import { useSelector } from '../../services/store';
 
 export const ConstructorPage: FC = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, []);
-
   const isIngredientsLoading = useSelector(getIsIngredientsLoading);
 
   return (

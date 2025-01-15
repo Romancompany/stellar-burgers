@@ -29,7 +29,7 @@ export const burgerConstructorSlice = createSlice({
     clearIngredient: (state) => initialState
   },
   selectors: {
-    getBun: (state) => state.bun,
+    getBunIngredient: (state) => state.bun,
     getIngredients: (state) => state.ingredients
   }
 });
@@ -40,4 +40,5 @@ export const {
   delIngredient,
   clearIngredient
 } = burgerConstructorSlice.actions;
-export const { getBun, getIngredients } = burgerConstructorSlice.selectors;
+export const { getBunIngredient, getIngredients } =
+  burgerConstructorSlice.selectors;

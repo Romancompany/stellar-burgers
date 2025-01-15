@@ -3,20 +3,19 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector, useDispatch } from '../../services/store';
 import {
-  getBun,
-  getIngredients,
-  clearIngredient
+  getBunIngredient,
+  getIngredients
 } from '../../services/slices/burgerConstructorSlice';
 import {
   getIsOrderLoading,
-  getOrderData,
+  getOrder,
   clearOrder
 } from '../../services/slices/orderBurgerSlice';
 import { orderBurger } from '../../services/slices/actions';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
-  const bun = useSelector(getBun);
+  const bun = useSelector(getBunIngredient);
   const ingredients = useSelector(getIngredients);
   const constructorItems = {
     bun,
@@ -24,17 +23,13 @@ export const BurgerConstructor: FC = () => {
   };
 
   const orderRequest = useSelector(getIsOrderLoading);
-  const orderData = useSelector(getOrderData);
-  const orderModalData = orderData.order;
-  //console.log('orderData.name=' + orderData.name);
-  //console.log(orderModalData);
+  const orderModalData = useSelector(getOrder);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
 
     const orderId = ingredients.map((item) => item._id);
     dispatch(orderBurger(orderId));
-    //dispatch(clearIngredient());
   };
   const closeOrderModal = () => {
     dispatch(clearOrder());

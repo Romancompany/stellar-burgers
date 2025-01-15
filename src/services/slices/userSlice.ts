@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loginUser, registerUser, logoutUser, setUser } from './actions';
+import { loginUser, registerUser, logoutUser } from './actions';
 import { TUser } from '@utils-types';
 
 type TUserState = {
@@ -23,12 +23,15 @@ export const userSlice = createSlice({
     },
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
+    },
+    setUser: (state, action: PayloadAction<TUser | null>) => {
+      state.user = action.payload;
     }
   },
   selectors: {
     getUser: (state) => state.user,
     getIsAuthChecked: (state) => state.isAuthChecked,
-    getError: (state) => state.error
+    getUserError: (state) => state.error
   },
   extraReducers: (builder) => {
     builder
@@ -54,12 +57,9 @@ export const userSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.user = null;
-      })
-      .addCase(setUser, (state, action) => {
-        state.user = action.payload;
       });
   }
 });
 
-export const { setIsAuthChecked, setError } = userSlice.actions;
-export const { getUser, getIsAuthChecked, getError } = userSlice.selectors;
+export const { setIsAuthChecked, setError, setUser } = userSlice.actions;
+export const { getUser, getIsAuthChecked, getUserError } = userSlice.selectors;

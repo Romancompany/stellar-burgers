@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { orderBurger } from './actions';
 
 export type TOrderBurgerState = {
-  data: { order: TOrder | null; name: string };
+  order: TOrder | null;
   isOrderLoading: boolean;
 };
 
 export const initialState: TOrderBurgerState = {
-  data: { order: null, name: '' },
+  order: null,
   isOrderLoading: false
 };
 
@@ -19,14 +19,14 @@ export const orderBurgerSlice = createSlice({
     clearOrder: (state) => initialState
   },
   selectors: {
-    getOrderData: (state) => state.data,
+    getOrder: (state) => state.order,
     getIsOrderLoading: (state) => state.isOrderLoading
   },
   // pending/fulfilled/rejected = ожидающий/выполненный/отклоненный
   extraReducers: (builder) => {
     builder
       .addCase(orderBurger.fulfilled, (state, action) => ({
-        data: action.payload,
+        order: action.payload,
         isOrderLoading: false
       }))
       .addCase(orderBurger.pending, (state, action) => ({
@@ -41,4 +41,4 @@ export const orderBurgerSlice = createSlice({
 });
 
 export const { clearOrder } = orderBurgerSlice.actions;
-export const { getOrderData, getIsOrderLoading } = orderBurgerSlice.selectors;
+export const { getOrder, getIsOrderLoading } = orderBurgerSlice.selectors;

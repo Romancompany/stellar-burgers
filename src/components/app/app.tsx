@@ -16,16 +16,17 @@ import { AppHeader } from '@components';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { Modal } from '../modal';
 import { OrderInfo } from '../order-info';
-import { FeedInfo } from '../feed-info';
 import { IngredientDetails } from '../ingredient-details';
 import { checkUserAuth } from '../../services/slices/actions';
 import { useDispatch } from '../../services/store';
+import { fetchIngredients } from '../../services/slices/actions';
 
 const App: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(fetchIngredients());
   }, []);
 
   const navigate = useNavigate();
@@ -50,8 +51,8 @@ const App: FC = () => {
         <Route
           path='/feed/:number'
           element={
-            <Modal title={'FeedInfo #/feed/:number'} onClose={onDismiss}>
-              <FeedInfo />
+            <Modal title={'Заказ'} onClose={onDismiss}>
+              <OrderInfo />
             </Modal>
           }
         />
@@ -66,10 +67,7 @@ const App: FC = () => {
         <Route
           path='/profile/orders/:number'
           element={
-            <Modal
-              title={'OrderInfo #/profile/orders/:number'}
-              onClose={onDismiss}
-            >
+            <Modal title={'Заказ'} onClose={onDismiss}>
               <OrderInfo />
             </Modal>
           }
