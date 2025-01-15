@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TIngredientData } from '@utils-types';
+import { TIngredient } from '@utils-types';
 import { fetchIngredients } from './actions';
 
-export const initialState: TIngredientData = {
+export type TIngredientState = {
+  ingredients: TIngredient[];
+  isIngredientsLoading: boolean;
+};
+
+export const initialState: TIngredientState = {
   ingredients: [],
   isIngredientsLoading: false
 };
@@ -33,7 +38,5 @@ export const ingredientSlice = createSlice({
   }
 });
 
-// Action creators are generated for each case reducer function
-//export const {} = ingredientSlice.actions;
 export const { getIsIngredientsLoading, getIngredients } =
   ingredientSlice.selectors;

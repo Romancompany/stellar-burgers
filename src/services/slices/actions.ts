@@ -1,17 +1,19 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import {
+  TLoginData,
+  TRegisterData,
   getIngredientsApi,
   getFeedsApi,
   loginUserApi,
   registerUserApi,
   logoutApi,
   getUserApi,
-  TLoginData,
-  TRegisterData
+  orderBurgerApi
 } from '@api';
 import { TUser } from '@utils-types';
 import { setCookie, deleteCookie } from '../../utils/cookie';
 import { setIsAuthChecked } from './userSlice';
+import { clearIngredient } from './burgerConstructorSlice';
 
 export const fetchIngredients = createAsyncThunk(
   'burger/fetchIngredients',
@@ -74,5 +76,14 @@ export const checkUserAuth = createAsyncThunk(
     } else {
       dispatch(setIsAuthChecked(true));
     }
+  }
+);
+
+export const orderBurger = createAsyncThunk(
+  'user/orderBurger',
+  async (id: string[], { dispatch }) => {
+    const data = await orderBurgerApi(id);
+    dispatch(clearIngredient());
+    return { order: data.order, name: data.name };
   }
 );

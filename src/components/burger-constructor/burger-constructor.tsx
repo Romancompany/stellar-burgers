@@ -1,37 +1,44 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { RootState, useSelector } from '../../services/store';
-import { TIngredient } from '@utils-types';
+import { useSelector, useDispatch } from '../../services/store';
+import {
+  getBun,
+  getIngredients,
+  clearIngredient
+} from '../../services/slices/burgerConstructorSlice';
+import {
+  getIsOrderLoading,
+  getOrderData,
+  clearOrder
+} from '../../services/slices/orderBurgerSlice';
+import { orderBurger } from '../../services/slices/actions';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const buns: TIngredient[] = useSelector(
-    (state: RootState) => state.ingredient.ingredients
-  ).filter((ingredient) => ingredient.type === 'bun');
-
-  const el1: TConstructorIngredient = { ...buns[0], id: '1' };
-  const el2: TConstructorIngredient = { ...buns[1], id: '2' };
-
-  const buns2: TConstructorIngredient[] = [el1, el2];
-
+  const dispatch = useDispatch();
+  const bun = useSelector(getBun);
+  const ingredients = useSelector(getIngredients);
   const constructorItems = {
-    bun: {
-      price: el1.price,
-      name: el1.name,
-      image: el1.image // 'https://code.s3.yandex.net/react/code/bun-01-large.png'
-    },
-    ingredients: buns2
+    bun,
+    ingredients
   };
 
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const orderRequest = useSelector(getIsOrderLoading);
+  const orderData = useSelector(getOrderData);
+  const orderModalData = orderData.order;
+  //console.log('orderData.name=' + orderData.name);
+  //console.log(orderModalData);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    const orderId = ingredients.map((item) => item._id);
+    dispatch(orderBurger(orderId));
+    //dispatch(clearIngredient());
   };
-  const closeOrderModal = () => {};
+  const closeOrderModal = () => {
+    dispatch(clearOrder());
+  };
 
   const price = useMemo(
     () =>

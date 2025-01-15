@@ -63,9 +63,3 @@ export const userSlice = createSlice({
 
 export const { setIsAuthChecked, setError } = userSlice.actions;
 export const { getUser, getIsAuthChecked, getError } = userSlice.selectors;
-
-type TActionCreators = typeof userSlice.actions;
-
-export type TInternalActions = ReturnType<
-  TActionCreators[keyof TActionCreators]
->;

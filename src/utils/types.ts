@@ -38,8 +38,3 @@ export type TUser = {
 };
 
 export type TTabMode = 'bun' | 'sauce' | 'main';
-
-export type TIngredientData = {
-  ingredients: TIngredient[];
-  isIngredientsLoading: boolean;
-}
