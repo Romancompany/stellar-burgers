@@ -32,6 +32,11 @@ export const BurgerConstructor: FC = () => {
     if (!constructorItems.bun || orderRequest) return;
     if (user) {
       const orderId = ingredients.map((item) => item._id);
+      const bunId: string = bun?._id ?? '';
+
+      orderId.push(bunId);
+      orderId.push(bunId);
+
       dispatch(orderBurger(orderId));
     } else {
       navigate('/login', { replace: true });

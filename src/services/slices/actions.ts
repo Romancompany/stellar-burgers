@@ -12,7 +12,7 @@ import {
   getOrdersApi,
   getOrderByNumberApi
 } from '@api';
-import { setCookie, deleteCookie } from '../../utils/cookie';
+import { setCookie, deleteCookie, getCookie } from '../../utils/cookie';
 import { setIsAuthChecked, setUser } from './userSlice';
 import { clearIngredient } from './burgerConstructorSlice';
 
@@ -85,7 +85,7 @@ export const logoutUser = createAsyncThunk(
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',
   async (_, { dispatch }) => {
-    if (localStorage.getItem('accessToken')) {
+    if (getCookie('accessToken')) {
       getUserApi()
         .then((data) => dispatch(setUser(data.user)))
         .finally(() => dispatch(setIsAuthChecked(true)));
