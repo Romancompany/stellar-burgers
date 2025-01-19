@@ -2,7 +2,7 @@ import { FC, useMemo, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient, TOrder } from '@utils-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
 import { fetchOrderByNumber } from '../../services/slices/actions';
 import { getIngredients } from '../../services/slices/ingredientSlice';
@@ -10,6 +10,8 @@ import { getOrder } from '../../services/slices/orderByNumberSlice';
 
 export const OrderInfo: FC = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const backgroundLocation = location.state?.background;
   const { number } = useParams<{ number: string }>();
   let numberId = Number(number);
   if (!Number.isInteger(numberId)) numberId = 0;
@@ -60,7 +62,8 @@ export const OrderInfo: FC = () => {
       ...orderData,
       ingredientsInfo,
       date,
-      total
+      total,
+      backgroundLocation
     };
   }, [orderData, ingredients]);
 

@@ -18,8 +18,9 @@ import { Modal } from '../modal';
 import { OrderInfo } from '../order-info';
 import { IngredientDetails } from '../ingredient-details';
 import { checkUserAuth } from '../../services/slices/actions';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { fetchIngredients } from '../../services/slices/actions';
+import { getOrder } from '../../services/slices/orderByNumberSlice';
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,11 @@ const App: FC = () => {
     dispatch(checkUserAuth());
     dispatch(fetchIngredients());
   }, []);
+
+  const orderNumber = useSelector(getOrder)?.number;
+
+  const getOrderTitle = () =>
+    orderNumber ? '#' + orderNumber.toString() : 'Заказ';
 
   return (
     <div className={styles.app}>
@@ -92,7 +98,7 @@ const App: FC = () => {
               path=':number'
               element={
                 <Modal
-                  title={'Заказ'}
+                  title={getOrderTitle()}
                   onClose={() => {
                     navigate(-1);
                   }}
@@ -109,7 +115,7 @@ const App: FC = () => {
                 <OnlyAuth
                   component={
                     <Modal
-                      title={'Заказ'}
+                      title={getOrderTitle()}
                       onClose={() => {
                         navigate(-1);
                       }}

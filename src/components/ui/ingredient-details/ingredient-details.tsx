@@ -9,7 +9,7 @@ export const IngredientDetailsUI: FC<IngredientDetailsUIProps> = memo(
 
     return (
       <div className={styles.content}>
-        {backgroundLocation && (
+        {!backgroundLocation && (
           <h2 className='text text_type_main-medium mt-2 mb-4'>
             Детали инградиента
           </h2>
