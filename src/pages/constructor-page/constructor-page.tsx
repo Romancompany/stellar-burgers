@@ -2,7 +2,7 @@ import styles from './constructor-page.module.css';
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { getIsIngredientsLoading } from '../../services/slices/ingredientSlice';
 import { useSelector } from '../../services/store';
 
