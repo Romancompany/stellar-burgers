@@ -8,8 +8,9 @@ import {
   initialState
 } from './feedSlice';
 import { TOrder } from '@utils-types';
+import { fetchOrdersAll } from './actions';
 
-const testOrders: TOrder[] = [
+const mockOrders: TOrder[] = [
   {
     _id: '67879dc8133acd001be4a690',
     ingredients: ['643d69a5c3f7b9001cfa093e'],
@@ -30,13 +31,8 @@ const testOrders: TOrder[] = [
   }
 ];
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
 describe('Список заказов, тесты селекторов', () => {
-  //const testOrders: TOrder[] = [];
-  const testTotalToday = 2;
+  const mockTotalToday = 2;
   // создаем начальный стор, из которого будет получать данные
   const store = configureStore({
     reducer: { feed: feedSlice.reducer },
@@ -44,11 +40,18 @@ describe('Список заказов, тесты селекторов', () => {
     preloadedState: {
       feed: {
         ...initialState,
-        orders: testOrders,
-        total: testOrders.length,
-        totalToday: testTotalToday
+        orders: mockOrders,
+        total: mockOrders.length,
+        totalToday: mockTotalToday
       }
     }
+  });
+
+  // проверка правильной инициализации
+  test('should return the initial state', () => {
+    expect(feedSlice.reducer(undefined, { type: 'UNKNOWN_ACTION' })).toEqual(
+      initialState
+    );
   });
 
   // тест селектора getFeedOrdersAll
@@ -56,7 +59,7 @@ describe('Список заказов, тесты селекторов', () => {
     // вызов селектора getFeedOrdersAll
     const orders = getFeedOrdersAll(store.getState());
     // сравниваем результат с ожидаемым результатом
-    expect(orders).toEqual(testOrders);
+    expect(orders).toEqual(mockOrders);
   });
 
   // тест селектора getFeedTotal
@@ -64,7 +67,7 @@ describe('Список заказов, тесты селекторов', () => {
     // вызов селектора getFeedTotal
     const total = getFeedTotal(store.getState());
     // сравниваем результат с ожидаемым результатом
-    expect(total).toEqual(testOrders.length);
+    expect(total).toEqual(mockOrders.length);
   });
 
   // тест селектора getFeedTotalToday
@@ -72,6 +75,17 @@ describe('Список заказов, тесты селекторов', () => {
     // вызов селектора getFeedTotalToday
     const totalToday = getFeedTotalToday(store.getState());
     // сравниваем результат с ожидаемым результатом
-    expect(totalToday).toEqual(testTotalToday);
+    expect(totalToday).toEqual(mockTotalToday);
+  });
+});
+
+describe('Список заказов, тесты  extraReducers', () => {
+  test('fetchOrdersAll.fulfilled', () => {
+    expect(
+      feedSlice.reducer(undefined, {
+        type: fetchOrdersAll.fulfilled.type,
+        payload: { ...initialState, success: true }
+      })
+    ).toEqual({ ...initialState, success: true });
   });
 });

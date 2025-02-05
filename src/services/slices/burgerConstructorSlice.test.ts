@@ -69,11 +69,14 @@ const mockConstructorIngredientSauce: TConstructorIngredient = {
   id: '3'
 };
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
 describe('Конструктор гамбургера, тесты редьюсеров', () => {
+  // проверка правильной инициализации
+  test('should return the initial state', () => {
+    expect(burgerConstructorSlice.reducer(undefined, { type: 'UNKNOWN_ACTION' })).toEqual(
+      initialState
+    );
+  });
+
   // тест редьюсера addIngredient
   test('добавить инградиент', () => {
     // начальное состояние
