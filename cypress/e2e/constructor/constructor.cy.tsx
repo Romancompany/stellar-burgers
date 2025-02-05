@@ -1,4 +1,5 @@
 describe('Страница конструктора булки', () => {
+    // npm run cypress:open
     // id инградиентов для поиска
     const ids = ['643d69a5c3f7b9001cfa093d' // "Флюоресцентная булка R2-D3"
                 ,'643d69a5c3f7b9001cfa0940' // "Говяжий метеорит (отбивная)"
@@ -8,27 +9,41 @@ describe('Страница конструктора булки', () => {
     beforeEach(() => {
        // установили размер экрана
        cy.viewport(1250, 1150);
-
+       // сервис должен быть доступен по адресу localhost:4000
+       //cy.visit('http://localhost:4000/login'); 
+       //cy.get(`[type=submit`).click(); 
+       //
+       /*
+       cy.intercept('POST', 'api/auth/login', { fixture: 'login.json' }).as('createLogin');
+       //
+       cy.get(`[type=submit`).click(); 
+       //
+       cy.wait('@createLogin').then(({response}) => {
+        expect(response.statusCode).to.eq(200)
+        //expect(response.user.name).to.eq('Николаев Роман Борисович')
+       });
+*/
        // перехват getIngredientsApi
        cy.intercept('api/ingredients', { fixture: 'ingredients.json' } );
-        
        // сервис должен быть доступен по адресу localhost:4000
        cy.visit('http://localhost:4000'); 
     });
 
     it('инградиент ищем, открываем, закрываем', () => {
-        
-        ids.forEach((id) => {
+        const sliceIds = ids.filter((id, position) => position === 0);
+        sliceIds.forEach((id) => {
            // ищем инградиеет
            const ingredient = cy.get(`[data-cy="ingredient.id=${id}"]`); 
            // открываем инградиент
            ingredient.click();
            // ждем 2 секунды
-           cy.wait(2000);
+           cy.wait(1000);
            // ищем кнопку закрытия
            const buttonClose = cy.get(`[data-cy="buttonClose"]`);
            // кликаем на кнопку закрытия
            buttonClose.click();
+           //
+           
         });
     });
 

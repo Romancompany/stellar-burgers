@@ -11,7 +11,7 @@ import {
   orderBurgerApi,
   getOrdersApi,
   getOrderByNumberApi
-} from '@api';
+} from '../../utils/burger-api';
 import { setCookie, deleteCookie, getCookie } from '../../utils/cookie';
 import { setIsAuthChecked, setUser } from './userSlice';
 import { clearIngredient } from './burgerConstructorSlice';
