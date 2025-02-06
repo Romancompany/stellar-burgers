@@ -1,64 +1,75 @@
 describe('Страница конструктора булки', () => {
-    // npm run cypress:open
-    // id инградиентов для поиска
-    const ids = ['643d69a5c3f7b9001cfa093d' // "Флюоресцентная булка R2-D3"
-                ,'643d69a5c3f7b9001cfa0940' // "Говяжий метеорит (отбивная)"
-                ,'643d69a5c3f7b9001cfa0942' // "Соус Spicy-X"
-                ];
+  // id инградиентов для поиска
+  const ingredients = [
+    {
+      id: '643d69a5c3f7b9001cfa093d',
+      name: 'Флюоресцентная булка R2-D3'
+    },
+    {
+      id: '643d69a5c3f7b9001cfa0940',
+      name: 'Говяжий метеорит (отбивная)'
+    },
+    {
+      id: '643d69a5c3f7b9001cfa0942',
+      name: 'Соус Spicy-X'
+    }
+  ];
+  //
+  const email: string = 'romancompany@mail.ru';
+  const password: string = 'ctrhtn';
+  const orderNumber = '67719';
 
-    beforeEach(() => {
-       // установили размер экрана
-       cy.viewport(1250, 1150);
-       // сервис должен быть доступен по адресу localhost:4000
-       //cy.visit('http://localhost:4000/login'); 
-       //cy.get(`[type=submit`).click(); 
-       //
-       /*
-       cy.intercept('POST', 'api/auth/login', { fixture: 'login.json' }).as('createLogin');
-       //
-       cy.get(`[type=submit`).click(); 
-       //
-       cy.wait('@createLogin').then(({response}) => {
-        expect(response.statusCode).to.eq(200)
-        //expect(response.user.name).to.eq('Николаев Роман Борисович')
-       });
-*/
-       // перехват getIngredientsApi
-       cy.intercept('api/ingredients', { fixture: 'ingredients.json' } );
-       // сервис должен быть доступен по адресу localhost:4000
-       cy.visit('http://localhost:4000'); 
+  it('инградиент ищем, открываем, закрываем', () => {
+    // логинимся
+    cy.prepare(email, password);
+    //const sliceIngredients = ingredients;
+    const sliceIngredients = ingredients.filter(
+      (ingredient, position) => position === 0
+    );
+
+    sliceIngredients.forEach((ingredient) => {
+      // находим инградиент и кликаем для просмотра детализации
+      cy.get(`[data-cy="ingredient.id-${ingredient.id}"]`).click();
+      // ждем
+      cy.wait(200);
+      // выдать ошибку если модальное окно закрыто
+      cy.raiseModalClose();
+      // проверяем наименование инградиента в детализации
+      cy.get(`[data-cy=ingredient_name]`).contains(ingredient.name);
+      // закрываем детализацию по кнопке
+      cy.get(`[data-cy=buttonClose]`).click();
+      // выдать ошибку если модальное окно открыто
+      cy.raiseModalOpen();
+    });
+  });
+
+  it('инградиент ищем, добавляем, оформляем заказ', () => {
+    // логинимся
+    cy.prepare(email, password);
+    // ищем инградиенты и нажимаем кнопку добавить
+    ingredients.forEach((ingredient) => {
+      cy.get(`[data-cy="ingredient.id-${ingredient.id}"]`)
+        .find('button')
+        .contains('Добавить')
+        .click();
     });
 
-    it('инградиент ищем, открываем, закрываем', () => {
-        const sliceIds = ids.filter((id, position) => position === 0);
-        sliceIds.forEach((id) => {
-           // ищем инградиеет
-           const ingredient = cy.get(`[data-cy="ingredient.id=${id}"]`); 
-           // открываем инградиент
-           ingredient.click();
-           // ждем 2 секунды
-           cy.wait(1000);
-           // ищем кнопку закрытия
-           const buttonClose = cy.get(`[data-cy="buttonClose"]`);
-           // кликаем на кнопку закрытия
-           buttonClose.click();
-           //
-           
-        });
+    // делаем заказ
+    cy.get(`[data-cy=buttonOrder]`).contains('Оформить заказ').click();
+    // ожидаем
+    cy.wait('@postOrder').then(({ response }) => {
+      expect(response.statusCode).to.eq(200);
     });
+    // data-cy="orderNumber"
+    cy.get(`[data-cy=orderNumber]`).contains(orderNumber);
+    // закрываем детализацию по кнопке
+    cy.get(`[data-cy=buttonClose]`).click();
+    // выдать ошибку если модальное окно открыто
+    cy.raiseModalOpen();
 
-    it('инградиент ищем, добавляем, оформляем заказ', () => {
-        // ищем инградиенты и нажимаем кнопку добавить
-        ids.forEach((id) => {
-           const bread = cy.get(`[data-cy="ingredient.id=${id}"]`).find('button'); 
-           bread.contains('Добавить');
-           bread.click();
-        });
-/*
-        // находим в DOM дереве кнопку с атрибутом data-cy=1
-        const button = cy.get(`[data-cy="buttonOrder"]`);
-        button.contains('Оформить заказ');
-        button.click();
-*/
-    });
+    // Выберите булки 
+    cy.get(`[data-cy=constructorelementtop]`).contains('Выберите булки');
+    // Выберите начинку
+    // 
+  });
 });

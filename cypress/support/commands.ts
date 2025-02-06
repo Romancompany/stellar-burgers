@@ -35,3 +35,49 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('prepare', (email: string, password: string) => {
+  // установили размер экрана
+  cy.viewport(1250, 1150);
+  // перехват loginUserApi
+  cy.intercept('POST', 'api/auth/login', { fixture: 'login.json' }).as(
+    'postLogin'
+  );
+  // перехват getIngredientsApi
+  cy.intercept('api/ingredients', { fixture: 'ingredients.json' });
+  // токен
+  cy.intercept('api/auth/token', { fixture: 'token.json' });
+  // /auth/user
+  cy.intercept('api/auth/user', { fixture: 'user.json' });
+  // перехват заказа
+  cy.intercept('api/orders', { fixture: 'orders.json' }).as('postOrder');
+
+  // логинимся
+  cy.visit('http://localhost:4000/login');
+  cy.get(`[data-cy=email_input]`).type(`${email}`);
+  cy.get(`[data-cy=password_input]`).type(`${password}{enter}`);
+  cy.wait('@postLogin').then(({ response }) => {
+    expect(response.statusCode).to.eq(200);
+    expect(response.body.user.name).to.eq('Николаев Роман Борисович');
+  });
+});
+
+Cypress.Commands.add('raiseModalOpen', () => {
+  cy.get('#modals')
+    .find('div')
+    .should(($div) => {
+      if ($div.length !== 0) {
+        throw new Error('Открыто модальное окно');
+      }
+    });
+});
+
+Cypress.Commands.add('raiseModalClose', () => {
+  cy.get('#modals')
+    .find('div')
+    .should(($div) => {
+      if ($div.length === 0) {
+        throw new Error('Не открыто модальное окно');
+      }
+    });
+});

@@ -1,7 +1,7 @@
 {
     "success": true,
-    "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODY2NWIwMTMzYWNkMDAxYmU0YTM2YiIsImlhdCI6MTczODMzMTg1MCwiZXhwIjoxNzM4MzMzMDUwfQ.5qB8OTYClFY27AM8CxJ-tcr-9OM5uRcwhjI9nnheTYI",
-    "refreshToken": "b1791b0c3815631dc065f1755397a7d238d73fa2fc736fcbb9ca434e192d1d8bd968b26d698c6c3b",
+    "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODY2NWIwMTMzYWNkMDAxYmU0YTM2YiIsImlhdCI6MTczODg2MTc0MCwiZXhwIjoxNzM4ODYyOTQwfQ.b6V_mQQETT8Entr6vLNiKF_kxTHILyWefFpkbU06IyE",
+    "refreshToken": "7020d26473490fd17edfb114b6c4dfd00d44e2cb0008e708ead13049a0264f21a946301c8e7f37e6",
     "user": {
         "email": "romancompany@mail.ru",
         "name": "Николаев Роман Борисович"
