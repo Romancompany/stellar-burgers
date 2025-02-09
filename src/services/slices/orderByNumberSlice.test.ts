@@ -52,4 +52,21 @@ describe('Заказ по номеру, тесты extraReducers', () => {
       order: mockOrder
     });
   });
+  
+  test('fetchOrderByNumber.pending', () => {
+    expect(
+      orderByNumberSlice.reducer(undefined, {
+        type: fetchOrderByNumber.pending.type
+      })
+    ).toEqual(initialState);
+  });
+
+  test('fetchOrderByNumber.rejected', () => {
+    expect(
+      orderByNumberSlice.reducer(undefined, {
+        type: fetchOrderByNumber.rejected.type,
+        payload: { error: '' }
+      })
+    ).toEqual(initialState);
+  });
 });

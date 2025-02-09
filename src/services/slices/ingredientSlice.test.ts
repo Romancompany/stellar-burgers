@@ -90,4 +90,26 @@ describe('Список заказов, тесты  extraReducers', () => {
       ingredients: mockIngredients
     });
   });
+
+  test('fetchIngredients.pending', () => {
+    expect(
+      ingredientSlice.reducer(undefined, {
+        type: fetchIngredients.pending.type
+      })
+    ).toEqual({
+      ...initialState,
+      isIngredientsLoading: true
+    });
+  });
+
+  test('fetchIngredients.rejected', () => {
+    expect(
+      ingredientSlice.reducer(undefined, {
+        type: fetchIngredients.rejected.type
+      })
+    ).toEqual({
+      ...initialState,
+      isIngredientsLoading: false
+    });
+  });
 });

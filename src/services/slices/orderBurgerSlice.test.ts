@@ -87,4 +87,26 @@ describe('Заказ гамбургера, тесты  extraReducers', () => {
       isOrderLoading: false
     });
   });
+
+  test('orderBurger.pending', () => {
+    expect(
+      orderBurgerSlice.reducer(undefined, {
+        type: orderBurger.pending.type
+      })
+    ).toEqual({
+      ...initialState,
+      isOrderLoading: true
+    });
+  });
+
+  test('orderBurger.rejected', () => {
+    expect(
+      orderBurgerSlice.reducer(undefined, {
+        type: orderBurger.rejected.type
+      })
+    ).toEqual({
+      ...initialState,
+      isOrderLoading: false
+    });
+  });
 });

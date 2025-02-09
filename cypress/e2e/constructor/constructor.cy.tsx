@@ -14,6 +14,7 @@ describe('Страница конструктора булки', () => {
       name: 'Соус Spicy-X'
     }
   ];
+
   //
   const email: string = 'romancompany@mail.ru';
   const password: string = 'ctrhtn';
@@ -41,6 +42,8 @@ describe('Страница конструктора булки', () => {
       // выдать ошибку если модальное окно открыто
       cy.raiseModalOpen();
     });
+    // чистим токены
+    cy.free();
   });
 
   it('инградиент ищем, добавляем, оформляем заказ', () => {
@@ -67,9 +70,11 @@ describe('Страница конструктора булки', () => {
     // выдать ошибку если модальное окно открыто
     cy.raiseModalOpen();
 
-    // Выберите булки 
-    cy.get(`[data-cy=constructorelementtop]`).contains('Выберите булки');
+    // Выберите булки
+    cy.get(`[data-cy=constructorelement]`).contains('Выберите булки');
     // Выберите начинку
-    // 
+    cy.get(`[data-cy=constructorelement]`).contains('Выберите начинку');
+    // чистим токены
+    cy.free();
   });
 });

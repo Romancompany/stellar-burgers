@@ -88,4 +88,20 @@ describe('Список заказов, тесты  extraReducers', () => {
       })
     ).toEqual({ ...initialState, success: true });
   });
+
+  test('fetchOrdersAll.pending', () => {
+    expect(
+      feedSlice.reducer(undefined, {
+        type: fetchOrdersAll.pending.type
+      })
+    ).toEqual(initialState);
+  });
+  
+  test('fetchOrdersAll.rejected', () => {
+    expect(
+      feedSlice.reducer(undefined, {
+        type: fetchOrdersAll.rejected.type
+      })
+    ).toEqual(initialState);
+  });
 });

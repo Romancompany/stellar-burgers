@@ -130,6 +130,28 @@ describe('Пользователь, тесты extraReducers', () => {
     });
   });
 
+  test('registerUser.pending', () => {
+    expect(
+      userSlice.reducer(undefined, {
+        type: registerUser.pending.type
+      })
+    ).toEqual(initialState);
+  });
+
+  test('registerUser.rejected', () => {
+    expect(
+      userSlice.reducer(undefined, {
+        type: registerUser.rejected.type,
+        payload: { error: '' }
+      })
+    ).toEqual({
+      ...initialState,
+      user: null,
+      isAuthChecked: true,
+      error: ''
+    });
+  });
+
   test('loginUser.fulfilled', () => {
     expect(
       userSlice.reducer(undefined, {
@@ -140,6 +162,28 @@ describe('Пользователь, тесты extraReducers', () => {
       ...initialState,
       user: mockUser,
       isAuthChecked: true
+    });
+  });
+
+  test('loginUser.pending', () => {
+    expect(
+      userSlice.reducer(undefined, {
+        type: loginUser.pending.type
+      })
+    ).toEqual(initialState);
+  });
+
+  test('loginUser.rejected', () => {
+    expect(
+      userSlice.reducer(undefined, {
+        type: loginUser.rejected.type,
+        payload: { error: '' }
+      })
+    ).toEqual({
+      ...initialState,
+      user: null,
+      isAuthChecked: true,
+      error: ''
     });
   });
 
