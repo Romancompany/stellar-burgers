@@ -5,7 +5,7 @@ import { loginUser, registerUser, logoutUser } from './actions';
 type TUserState = {
   user: TUser | null;
   isAuthChecked: boolean;
-  error: string;
+  error: string | undefined;
 };
 
 export const initialState: TUserState = {
@@ -43,8 +43,7 @@ export const userSlice = createSlice({
       .addCase(registerUser.rejected, (state, action) => {
         state.user = null;
         state.isAuthChecked = true;
-        const error = action.error.message;
-        state.error = error ? error : '';
+        state.error = action.error.message;
       })
       .addCase(loginUser.pending, (state, action) => initialState)
       .addCase(loginUser.fulfilled, (state, action) => {
@@ -54,8 +53,7 @@ export const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.user = null;
         state.isAuthChecked = true;
-        const error = action.error.message;
-        state.error = error ? error : '';
+        state.error = action.error.message;
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.user = null;
