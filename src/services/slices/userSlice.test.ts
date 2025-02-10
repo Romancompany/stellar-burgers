@@ -142,13 +142,13 @@ describe('Пользователь, тесты extraReducers', () => {
     expect(
       userSlice.reducer(undefined, {
         type: registerUser.rejected.type,
-        payload: { error: '' }
+        error: { message: 'test registerUser.rejected' }
       })
     ).toEqual({
       ...initialState,
       user: null,
       isAuthChecked: true,
-      error: ''
+      error: 'test registerUser.rejected'
     });
   });
 
@@ -177,13 +177,13 @@ describe('Пользователь, тесты extraReducers', () => {
     expect(
       userSlice.reducer(undefined, {
         type: loginUser.rejected.type,
-        payload: { error: '' }
+        error: { message: 'test loginUser.rejected' }
       })
     ).toEqual({
       ...initialState,
       user: null,
       isAuthChecked: true,
-      error: ''
+      error: 'test loginUser.rejected'
     });
   });
 

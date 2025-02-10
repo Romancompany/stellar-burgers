@@ -58,21 +58,20 @@ describe('Список заказов, тесты extraReducers', () => {
       ...initialState,
       orders: mockOrders
     });
-  }); 
-  
+  });
+
   test('fetchOrders.pending', () => {
     expect(
       orderSlice.reducer(undefined, {
         type: fetchOrders.pending.type
       })
     ).toEqual(initialState);
-  }); 
+  });
 
   test('fetchOrders.rejected', () => {
     expect(
       orderSlice.reducer(undefined, {
-        type: fetchOrders.rejected.type,
-        payload: { error: '' }
+        type: fetchOrders.rejected.type
       })
     ).toEqual(initialState);
   });

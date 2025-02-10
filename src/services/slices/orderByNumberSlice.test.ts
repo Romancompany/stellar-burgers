@@ -64,8 +64,7 @@ describe('Заказ по номеру, тесты extraReducers', () => {
   test('fetchOrderByNumber.rejected', () => {
     expect(
       orderByNumberSlice.reducer(undefined, {
-        type: fetchOrderByNumber.rejected.type,
-        payload: { error: '' }
+        type: fetchOrderByNumber.rejected.type
       })
     ).toEqual(initialState);
   });
