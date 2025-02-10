@@ -52,11 +52,19 @@ Cypress.Commands.add('prepare', (email: string, password: string) => {
   // перехват заказа
   cy.intercept('api/orders', { fixture: 'orders.json' }).as('postOrder');
   // установить токен в куках
-  cy.setCookie('accessToken', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODY2NWIwMTMzYWNkMDAxYmU0YTM2YiIsImlhdCI6MTczODg2MTc0MCwiZXhwIjoxNzM4ODYyOTQwfQ.b6V_mQQETT8Entr6vLNiKF_kxTHILyWefFpkbU06IyE');
-  // 
-  window.localStorage.setItem('refreshToken', JSON.stringify('7020d26473490fd17edfb114b6c4dfd00d44e2cb0008e708ead13049a0264f21a946301c8e7f37e6'));
+  cy.setCookie(
+    'accessToken',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ODY2NWIwMTMzYWNkMDAxYmU0YTM2YiIsImlhdCI6MTczODg2MTc0MCwiZXhwIjoxNzM4ODYyOTQwfQ.b6V_mQQETT8Entr6vLNiKF_kxTHILyWefFpkbU06IyE'
+  );
+  //
+  window.localStorage.setItem(
+    'refreshToken',
+    JSON.stringify(
+      '7020d26473490fd17edfb114b6c4dfd00d44e2cb0008e708ead13049a0264f21a946301c8e7f37e6'
+    )
+  );
 
- // логинимся
+  // логинимся
   cy.visit('http://localhost:4000/login');
   cy.get(`[data-cy=email_input]`).type(`${email}`);
   cy.get(`[data-cy=password_input]`).type(`${password}{enter}`);
@@ -86,7 +94,7 @@ Cypress.Commands.add('raiseModalClose', () => {
     });
 });
 
-Cypress.Commands.add('free', () => {
+Cypress.Commands.add('clearToken', () => {
   cy.clearCookie('accessToken');
   cy.clearLocalStorage('refreshToken');
 });

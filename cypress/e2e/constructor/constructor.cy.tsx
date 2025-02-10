@@ -43,7 +43,7 @@ describe('Страница конструктора булки', () => {
       cy.raiseModalOpen();
     });
     // чистим токены
-    cy.free();
+    cy.clearToken();
   });
 
   it('инградиент ищем, добавляем, оформляем заказ', () => {
@@ -51,10 +51,21 @@ describe('Страница конструктора булки', () => {
     cy.prepare(email, password);
     // ищем инградиенты и нажимаем кнопку добавить
     ingredients.forEach((ingredient) => {
+      // проверяем что инградиента нет в конструкторе бургера
+      cy.get(`[data-cy=constructorelement]`)
+        .get(`[data-cy="constructore.ingredient.id-${ingredient.id}"]`)
+        .should('not.exist');
+
+      // найти инградиент и добавить в конструктор
       cy.get(`[data-cy="ingredient.id-${ingredient.id}"]`)
         .find('button')
         .contains('Добавить')
         .click();
+
+      // проверяем что инградиент появился в конструкторе бургера
+      cy.get(`[data-cy=constructorelement]`).get(
+        `[data-cy="constructore.ingredient.id-${ingredient.id}"]`
+      );
     });
 
     // делаем заказ
@@ -63,6 +74,8 @@ describe('Страница конструктора булки', () => {
     cy.wait('@postOrder').then(({ response }) => {
       expect(response.statusCode).to.eq(200);
     });
+    // выдать ошибку если модальное окно закрыто
+    cy.raiseModalClose();
     // data-cy="orderNumber"
     cy.get(`[data-cy=orderNumber]`).contains(orderNumber);
     // закрываем детализацию по кнопке
@@ -75,6 +88,6 @@ describe('Страница конструктора булки', () => {
     // Выберите начинку
     cy.get(`[data-cy=constructorelement]`).contains('Выберите начинку');
     // чистим токены
-    cy.free();
+    cy.clearToken();
   });
 });
